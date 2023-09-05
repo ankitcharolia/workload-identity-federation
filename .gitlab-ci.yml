@@ -1,0 +1,57 @@
+default:
+  tags:
+    - gitlab-runner
+
+stages: 
+  - auth
+  - build-and-push
+
+gcp-auth: 
+  image: "google/cloud-sdk:slim"
+
+  variables:
+    WORKLOAD_IDENTITY_PROVIDER: projects/906410504594/locations/global/workloadIdentityPools/gitlab/providers/gitlab-test
+    SERVICE_ACCOUNT_EMAIL: gitlab-test@futura-shared.iam.gserviceaccount.com
+
+  id_tokens:
+    GITLAB_OIDC_TOKEN:
+      aud: https://iam.googleapis.com/$WORKLOAD_IDENTITY_PROVIDER
+  script: 
+    - |
+        echo "$GITLAB_OIDC_TOKEN" > gitlab-oidc-token.txt
+        gcloud iam workload-identity-pools create-cred-config $WORKLOAD_IDENTITY_PROVIDER \
+        --service-account=$SERVICE_ACCOUNT_EMAIL \
+        --service-account-token-lifetime-seconds=600 \
+        --output-file=credentials.json \
+        --credential-source-file=gitlab-oidc-token.txt
+    - export GOOGLE_APPLICATION_CREDENTIALS=credentials.json
+    - gcloud auth login --cred-file=credentials.json
+    - gcloud auth print-access-token > access-token.txt
+  stage: auth
+  artifacts:
+    paths:
+    - credentials.json
+    - access-token.txt 
+
+docker-build-and-push:
+  stage: build-and-push
+  image:
+    name: docker:stable
+  services:
+    - name: docker:dind
+      command: ["--tls=false"]
+
+  variables:
+    DOCKER_HOST: tcp://docker:2375/
+    REGISTRY_HOST: europe-west3-docker.pkg.dev
+    # Use the overlayfs driver for improved performance:
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: ""
+
+  before_script:
+    # Login to Google Cloud Registry
+    - cat access-token.txt | docker login -u oauth2accesstoken --password-stdin https://$REGISTRY_HOST
+
+  script:
+    - docker build -t $REGISTRY_HOST/futura-shared/images/test-image:latest .
+    - docker push $REGISTRY_HOST/futura-shared/images/test-image:latest
