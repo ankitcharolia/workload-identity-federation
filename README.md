@@ -30,7 +30,11 @@ This tutorial demonstrates authenticating to Google Cloud from a GitLab CI/CD jo
     `For example, if you needed to upload a file to a Google Cloud Storage bucket in your GitLab CI/CD job, you would grant this Service Account the roles/storage.objectCreator role on your Cloud Storage bucket.`
 3. Grant the external identity permission using the following command. External identities are expressed using the principalSet:// protocol.
 
-    `gcloud iam service-accounts add-iam-policy-binding gitlab-test@futura-shared.iam.gserviceaccount.com --role=roles/iam.workloadIdentityUser --member="principalSet://iam.googleapis.com/projects/906410504594/locations/global/workloadIdentityPools/gitlab/attribute.project_path/ankitcharolia/gitlab-workload-identity"`
+    `gcloud iam service-accounts add-iam-policy-binding gitlab-test@<gcp-project>.iam.gserviceaccount.com --role=roles/iam.workloadIdentityUser --member="principalSet://iam.googleapis.com/projects/906410504594/locations/global/workloadIdentityPools/gitlab/attribute.project_path/<gitlab-repository-path>"`
+
+    **EXAMPLE**
+
+    `gcloud iam service-accounts add-iam-policy-binding gitlab-test@<gcp-project>.iam.gserviceaccount.com --role=roles/iam.workloadIdentityUser --member="principalSet://iam.googleapis.com/projects/906410504594/locations/global/workloadIdentityPools/gitlab/attribute.project_path/ankitcharolia/gitlab-workload-identity"`
 
 # Reference
 * [OpenID Connect](https://gitlab.com/guided-explorations/gcp/configure-openid-connect-in-gcp)

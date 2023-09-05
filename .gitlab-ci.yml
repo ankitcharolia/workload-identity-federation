@@ -30,7 +30,6 @@ gcp-auth:
   stage: auth
   artifacts:
     paths:
-    - credentials.json
     - access-token.txt 
 
 docker-build-and-push:
