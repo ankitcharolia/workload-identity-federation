@@ -29,6 +29,7 @@ gcp-auth:
     - gcloud auth print-access-token > access-token.txt
   stage: auth
   artifacts:
+    expire_in: 10 mins
     paths:
     - access-token.txt 
 
