@@ -28,7 +28,7 @@ resource "google_iam_workload_identity_pool_provider" "this" {
 
 resource "google_service_account" "this" {
   project      = var.project
-  account_id   = var.service_account
+  account_id   = var.service_account_name
   display_name = var.service_account_display_name
   description  = "[Gitlab-CI] ${var.service_account_description}"
 }
