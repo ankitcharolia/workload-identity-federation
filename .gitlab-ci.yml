@@ -10,8 +10,8 @@ gcp-auth:
   image: "google/cloud-sdk:slim"
 
   variables:
-    WORKLOAD_IDENTITY_PROVIDER: projects/906410504594/locations/global/workloadIdentityPools/gitlab/providers/gitlab-test
-    SERVICE_ACCOUNT_EMAIL: gitlab-test@futura-shared.iam.gserviceaccount.com
+    WORKLOAD_IDENTITY_PROVIDER: projects/907538893452/locations/global/workloadIdentityPools/gitlab/providers/gitlab-test
+    SERVICE_ACCOUNT_EMAIL: gitlab-test@gcp-test.iam.gserviceaccount.com
 
   id_tokens:
     GITLAB_OIDC_TOKEN:
@@ -53,5 +53,5 @@ docker-build-and-push:
     - cat access-token.txt | docker login -u oauth2accesstoken --password-stdin https://$REGISTRY_HOST
 
   script:
-    - docker build -t $REGISTRY_HOST/futura-shared/images/test-image:latest .
-    - docker push $REGISTRY_HOST/futura-shared/images/test-image:latest
+    - docker build -t $REGISTRY_HOST/gcp-test/images/test-image:latest .
+    - docker push $REGISTRY_HOST/gcp-test/images/test-image:latest
