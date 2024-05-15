@@ -36,5 +36,18 @@ This tutorial demonstrates authenticating to Google Cloud from a GitLab CI/CD jo
 
     `gcloud iam service-accounts add-iam-policy-binding gitlab-test@<gcp-project>.iam.gserviceaccount.com --role=roles/iam.workloadIdentityUser --member="principalSet://iam.googleapis.com/projects/906410504594/locations/global/workloadIdentityPools/gitlab/attribute.project_path/ankitcharolia/gitlab-workload-identity"`
 
+### rollout this tf module
+```bash
+inputs = {
+    workload_identity_pool_id           = "gitlab-ci"
+    workload_identity_pool_display_name = "gitlab-ci"
+    workload_identity_pool_provider_id  = "terraform"
+    service_account_name                = "gitlab-ci"
+    service_account_display_name        = "gitlab-ci"
+    service_account_description         = "service account for gitlab-ci"
+}
+```
+
 # Reference
 * [OpenID Connect](https://gitlab.com/guided-explorations/gcp/configure-openid-connect-in-gcp)
+* [github-actions WIF](https://nakamasato.medium.com/setup-github-actions-and-terraform-for-a-new-gcp-project-b740f561107)

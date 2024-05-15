@@ -1,6 +1,26 @@
-variable "gitlab_url" {
+variable "gitlab_repo_url" {
   type    = string
   default = "https://gitlab.com"
+}
+
+variable "github_issuer_url" {
+  type    = string
+  default = "https://token.actions.githubusercontent.com"
+}
+
+variable "workload_identity_pool_display_name" {
+  type        = string
+  description = "Display name for the Workload Identity Pool"
+}
+
+variable "workload_identity_pool_id" {
+  type        = string
+  description = "ID for the Workload Identity Pool"
+}
+
+variable "workload_identity_pool_provider_id" {
+  type        = string
+  description = "ID for the Workload Identity Pool Provider"
 }
 
 variable "gitlab_project_path" {
@@ -25,6 +45,6 @@ variable "service_account_display_name" {
   type = string
 }
 
-variable "gitlab_project_path" {
+variable "service_account_role" {
   type = string
 }
