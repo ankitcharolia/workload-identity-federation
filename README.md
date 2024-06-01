@@ -1,6 +1,15 @@
-# Configure OpenID Connect with GCP Workload Identity Federation
+# Workload Identity Federation
 
-This tutorial demonstrates authenticating to Google Cloud from a GitLab CI/CD job using a JSON Web Token (JWT) token and Workload Identity Federation. This configuration generates on-demand, short-lived credentials without needing to store any secrets.
+![Image](images/workload-identity-federation.jpg)
+
+Workload Identity Federation allows secure and efficient access to Google Cloud resources from external environments like AWS, Azure, on-premises Active Directory, and deployment services such as GitHub and GitLab. Instead of using traditional service account keys, which pose security risks, it leverages IAM roles and service account impersonation for streamlined access.
+
+## Key Components
+
+**Workload Identity Pools:** Manage external identities, recommended to create distinct pools for different environments (development, staging, production).
+
+**Workload Identity Pool Providers:** Define relationships between Google Cloud and identity providers, including AWS, Azure AD, GitHub, GitLab, Kubernetes clusters, Okta, AD FS, and Terraform.
+
 
 ### Steps: [Workload Identity Federation](https://console.cloud.google.com/iam-admin/workload-identity-pools)
 
